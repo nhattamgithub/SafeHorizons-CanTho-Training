@@ -1,0 +1,35 @@
+{
+  "canisters": {
+    "game": {
+      "main": "src/game/main.mo",
+      "type": "motoko"
+    },
+    "game_assets": {
+      "dependencies": [
+        "game"
+      ],
+      "frontend": {
+        "entrypoint": "src/game_assets/src/index.html"
+      },
+      "source": [
+        "src/game_assets/assets",
+        "dist/game_assets/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "dfx": "0.8.4",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  },
+  "version": 1
+}
