@@ -1,0 +1,236 @@
+type User_Creation = 
+ record {
+   confirm: text;
+   psswd: text;
+   username: text;
+ };
+type User = 
+ record {
+   id: text;
+   password: text;
+   username: text;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: Bag;
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: Character_Info;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: Event_withOp;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Quest_Item_Info = 
+ record {
+   questitemname: text;
+   strength_required: float64;
+ };
+type Quest_Item_For_Quest = 
+ record {
+   quest_itemid: text;
+   questid: text;
+ };
+type Quest_Item = 
+ record {
+   image: text;
+   name: text;
+   strength_required: float64;
+ };
+type Quest_Info = 
+ record {
+   description: text;
+   name: text;
+   price: float64;
+   required_item: vec text;
+ };
+type Quest = 
+ record {
+   description: text;
+   image: text;
+   name: text;
+   price: float64;
+ };
+type Option = 
+ record {
+   description: text;
+   eventid: text;
+   gain_by_luck: text;
+   gain_exp: int;
+   gain_hp: float64;
+   gain_mana: float64;
+   gain_morale: float64;
+   gain_other: text;
+   gain_stamina: float64;
+   loss_hp: float64;
+   loss_mana: float64;
+   loss_morale: float64;
+   loss_stamina: float64;
+   lost_other: text;
+   lucky_chance: float64;
+   require_item: vec text;
+   risk_chance: float64;
+   risk_lost: text;
+ };
+type Material_Amount = 
+ record {
+   amount: int;
+   description: text;
+   materialname: text;
+ };
+type Material = 
+ record {
+   description: text;
+   name: text;
+ };
+type Event_withOp = 
+ record {
+   event_desc: text;
+   option_desc: vec text;
+   result_desc: text;
+ };
+type Event = 
+ record {
+   description: text;
+   destination_name: text;
+   location_name: text;
+   questid: text;
+ };
+type Error = 
+ variant {
+   AlreadyExists;
+   BagOutOfSpace;
+   CharacterAlreadyExists;
+   CharacterClassAlreadyExists;
+   CharacterClassNotFound;
+   CharacterNotFound;
+   CharacterisDead;
+   EventAlreadyExists;
+   EventNotFound;
+   IncorrectPassword;
+   Invalid;
+   InvalidOption;
+   LimitedStrength;
+   MaterialNotFound;
+   NotAuthorized;
+   NotFound;
+   NotQuestItemIsRequired;
+   OptionAlreadyExists;
+   OptionNotFound;
+   QuestAlreadyExists;
+   QuestIsCompleted;
+   QuestItemAlreadyExists;
+   QuestItemNotFound;
+   QuestNotFound;
+   UserAlreadyExists;
+   UserNotFound;
+ };
+type Character_Take_Option_Creation = 
+ record {
+   charactername: text;
+   description: text;
+ };
+type Character_Info = 
+ record {
+   curr_hp: float64;
+   curr_mana: float64;
+   curr_morale: float64;
+   curr_stamina: float64;
+ };
+type Character_Creation = 
+ record {
+   character_class_name: text;
+   character_name: text;
+   user_id: text;
+ };
+type Character_Collect_Material = 
+ record {
+   amount: int;
+   characterid: text;
+   materialid: text;
+ };
+type Character_Class = 
+ record {
+   base_hp: float64;
+   base_intelligent: float64;
+   base_luck: float64;
+   base_mana: float64;
+   base_morale: float64;
+   base_stamina: float64;
+   base_strength: float64;
+   base_vitality: float64;
+   class_name: text;
+   description: text;
+ };
+type Character_Carrying_QuestItem_Creation = 
+ record {
+   charactername: text;
+   questitem: text;
+ };
+type Character_Carrying_QuestItem = 
+ record {
+   characterid: text;
+   questitemid: text;
+ };
+type Character = 
+ record {
+   class_name: text;
+   current_Exp: int;
+   current_hp: float64;
+   current_mana: float64;
+   current_morale: float64;
+   current_questid: text;
+   current_stamina: float64;
+   id: text;
+   intelligent: float64;
+   level: int;
+   luck: float64;
+   lvlup_Exp: int;
+   max_hp: float64;
+   max_mana: float64;
+   max_morale: float64;
+   max_stamina: float64;
+   name: text;
+   status: text;
+   strength: float64;
+   vitality: float64;
+ };
+type Bag = 
+ record {
+   capacity: float64;
+   items: vec Quest_Item_Info;
+   material_amount: vec Material_Amount;
+ };
+service : {
+  Init: () -> ();
+  UI_Bag: (text) -> (Result_3);
+  UI_Character_Carrying_QuestItems:
+   (Character_Carrying_QuestItem_Creation) -> (Result);
+  UI_Character_Info: (text) -> (Result_2);
+  UI_Character_Take_Option: (Character_Take_Option_Creation) -> (Result_1);
+  UI_Quest_Info: () -> (vec Quest_Info);
+  create_Character: (Character_Creation) -> (Result);
+  create_User: (User_Creation) -> (Result);
+  show_character_classes: () -> (vec Character_Class) query;
+  show_charactercarryingquestitems: () ->
+   (vec Character_Carrying_QuestItem) query;
+  show_charactercollectmaterials: () ->
+   (vec Character_Collect_Material) query;
+  show_characters: () -> (vec Character) query;
+  show_events: () -> (vec Event) query;
+  show_materials: () -> (vec Material) query;
+  show_options: () -> (vec Option) query;
+  show_questitemforquests: () -> (vec Quest_Item_For_Quest) query;
+  show_questitems: () -> (vec Quest_Item) query;
+  show_quests: () -> (vec Quest) query;
+  show_users: () -> (vec User) query;
+}
