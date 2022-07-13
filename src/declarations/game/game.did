@@ -1,0 +1,167 @@
+type Time = int;
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: nat;
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: Character_Quest_Item;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: vec Character_take_Opton;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Quest_Item_for_Quest = 
+ record {
+   quest_id: text;
+   quest_item_for_quest_id: text;
+   quest_item_id: text;
+ };
+type Quest_Item = 
+ record {
+   images: opt text;
+   name: text;
+   quest_item_id: text;
+   strengh_require: float64;
+ };
+type Quest = 
+ record {
+   description: opt text;
+   image: opt text;
+   price: float64;
+   quest_id: text;
+   quest_name: text;
+ };
+type Options = 
+ record {
+   description: text;
+   event_id: opt text;
+   gain_by_luck: text;
+   gain_exp: float64;
+   gain_hp: float64;
+   gain_mana: float64;
+   gain_morale: float64;
+   gain_other: text;
+   gain_stamina: float64;
+   loss_hp: float64;
+   loss_mana: float64;
+   loss_morale: float64;
+   loss_other: text;
+   loss_stamina: float64;
+   lucky_chance: float64;
+   option_id: text;
+   require_item: opt vec text;
+   risk_chance: float64;
+   risk_lost: text;
+ };
+type Event = 
+ record {
+   description: text;
+   destiFloation_name: text;
+   event_id: text;
+   location_name: text;
+   quest_id: text;
+ };
+type Error = 
+ variant {
+   CannotChoose;
+   CharacterNameAlready;
+   CharacterNotFound;
+   CharacterQuestItemNotFound;
+   ChooseOptionNotFound;
+   EventNotFound;
+   MaterialNotFound;
+   NotFound;
+   OptionNotFound;
+   QuestItemNameAlready;
+   QuestItemNotFound;
+   QuestNameAlready;
+   QuestNotFound;
+   RequiteItemNotFound;
+ };
+type Character_take_Opton = 
+ record {
+   char_curr_hp: float64;
+   char_curr_mana: float64;
+   char_curr_morale: float64;
+   char_curr_stamina: float64;
+   char_max_hp: float64;
+   char_max_mana: float64;
+   char_max_morale: float64;
+   char_max_stamina: float64;
+   character_id: text;
+   option_id: text;
+   pickup_time: Time;
+ };
+type Character_Quest_Item = 
+ record {
+   character_id: text;
+   list_quest_item: vec text;
+ };
+type Character = 
+ record {
+   character_class: text;
+   character_id: text;
+   current_exp: float64;
+   current_hp: float64;
+   current_mana: float64;
+   current_morale: float64;
+   current_stamina: float64;
+   intelligent: float64;
+   level: nat;
+   level_up_exp: float64;
+   luck: float64;
+   max_hp: float64;
+   max_mana: float64;
+   max_morale: float64;
+   max_stamina: float64;
+   name: text;
+   strength: float64;
+   vitality: float64;
+ };
+service : {
+  clear_data: () -> (Result);
+  count_Material: (text) -> (Result_3);
+  createCharacter: (text, text, nat, float64, float64, float64, float64,
+   float64, float64, float64, float64, float64, float64, float64, float64,
+   float64, float64) -> (Result);
+  createCharacterTakeOptions: (text, text, Time, float64, float64, float64,
+   float64, float64, float64, float64, float64) -> (Result);
+  createCharacter_Quest_Item: (text, vec text) -> (Result);
+  createEvent: (text, text, text, text) -> (Result);
+  createMaterial: (text, text, opt text, nat) -> (Result);
+  createOption: (text, opt text, opt vec text, float64, float64, float64,
+   float64, float64, text, text, float64, float64, float64, float64, 
+   float64, float64, text, text) -> (Result);
+  createQuest: (text, float64, opt text, opt text) -> (Result);
+  createQuestItem: (text, float64, opt text) -> (Result);
+  createQuestItemforQuest: (text, text) -> (Result);
+  inforCharacter: (text) -> (opt Character);
+  inforCharacterQuestItem: (text) -> (Result_2);
+  init_data: () -> (Result);
+  listCharacterTakeOption: (text) -> (Result_1);
+  listEvent: () -> (vec Event);
+  listOptions: () -> (vec Options);
+  listQuest: () -> (vec Quest);
+  listQuestItem: () -> (vec Quest_Item);
+  listQuestItemforQuest: () -> (vec Quest_Item_for_Quest);
+  pos1_to_pos2: (text, text) -> (Result);
+  pos2_to_pos3: (text, text) -> (Result);
+  pos3_to_pos4: (text, text) -> (Result);
+  pos4_to_pos5: (text, text) -> (Result);
+  pos5_to_pos6: (text, text) -> (Result);
+  randomNat: () -> (nat);
+  random_probability: (float64) -> (bool);
+  updateCharacter: (text, text, text, nat, float64, float64, float64,
+   float64, float64, float64, float64, float64, float64, float64, float64,
+   float64, float64, float64) -> (Result);
+  updateCharacter_Quest_Item: (text, vec text) -> (Result);
+}
