@@ -1,0 +1,257 @@
+type User_Login = 
+ record {
+   psswd: text;
+   username: text;
+ };
+type User_Creation = 
+ record {
+   psswd: text;
+   re_psswd: text;
+   username: text;
+ };
+type User = 
+ record {
+   active_caller: opt principal;
+   id: text;
+   name: text;
+   number_of_characters: nat;
+   psswd: text;
+ };
+type Result_3 = 
+ variant {
+   err: Error;
+   ok: CharacterBag;
+ };
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: Character_Quick_Info;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: EventwithOptions_Info;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type QuestRequirements_Info = 
+ record {
+   price: nat;
+   questname: text;
+   required_items: vec text;
+   starttext: text;
+ };
+type Quest = 
+ record {
+   description: text;
+   image: text;
+   name: text;
+   price: nat;
+ };
+type Option = 
+ record {
+   description: text;
+   eventid: text;
+   gain_by_luck: text;
+   gain_exp: nat;
+   gain_hp: float64;
+   gain_morale: float64;
+   gain_mp: float64;
+   gain_other: text;
+   gain_sta: float64;
+   loss_hp: float64;
+   loss_morale: float64;
+   loss_mp: float64;
+   loss_other: text;
+   loss_sta: float64;
+   lucky_chance: float64;
+   required_item: vec text;
+   risk_chance: float64;
+   risk_lost: text;
+ };
+type MaterialwithAmount_Info = 
+ record {
+   amount: int;
+   description: text;
+   name: text;
+ };
+type Material = 
+ record {
+   description: text;
+   name: text;
+ };
+type ItemforQuest = 
+ record {
+   itemid: text;
+   questid: text;
+ };
+type Item__1 = 
+ record {
+   image: text;
+   name: text;
+   required_str: float64;
+ };
+type Item = 
+ record {
+   image: text;
+   name: text;
+   required_str: float64;
+ };
+type EventwithOptions_Info = 
+ record {
+   nextevent: text;
+   options: vec text;
+   result: text;
+ };
+type Event = 
+ record {
+   description: text;
+   destination_name: text;
+   location_name: text;
+   questid: text;
+ };
+type Error = 
+ variant {
+   AlreadyExists;
+   AlreadyUsed;
+   BagOutOfSpace;
+   CharacterIsDead;
+   CharacterNotAvailable;
+   CharacterNotFound;
+   ClassNotFound;
+   EventNotFound;
+   IncorectPassword;
+   ItemNotFound;
+   MaterialNotFound;
+   NameAlreadyUsed;
+   None;
+   NotAuthorized;
+   NotMeetRequirement;
+   OptionNotFound;
+   QuestIsFinished;
+   QuestNotFound;
+   UserNotFound;
+ };
+type ChartakeOption_Creation = 
+ record {
+   charactername: text;
+   optionname: text;
+ };
+type ChartakeOption = 
+ record {
+   char_cur_hp: float64;
+   char_cur_morale: float64;
+   char_cur_mp: float64;
+   char_cur_sta: float64;
+   char_max_hp: float64;
+   char_max_morale: float64;
+   char_max_mp: float64;
+   char_max_sta: float64;
+   charid: text;
+   optionid: text;
+   pickup_time: int;
+ };
+type CharcollectMaterial = 
+ record {
+   amount: int;
+   characterid: text;
+   materialid: text;
+ };
+type CharcarryingItem_Creation = 
+ record {
+   charactername: text;
+   itemname: text;
+ };
+type CharcarryingItem = 
+ record {
+   characterid: text;
+   itemid: text;
+ };
+type Character_Quick_Info = 
+ record {
+   cur_exp: nat;
+   cur_hp: float64;
+   cur_morale: float64;
+   cur_mp: float64;
+   cur_sta: float64;
+   max_hp: float64;
+   max_morale: float64;
+   max_mp: float64;
+   max_sta: float64;
+   name: text;
+   next_exp: nat;
+ };
+type Character_Creation = 
+ record {
+   classname: text;
+   name: text;
+   userid: text;
+ };
+type Character_Class = 
+ record {
+   base_hp: float64;
+   base_int: float64;
+   base_lck: float64;
+   base_morale: float64;
+   base_mp: float64;
+   base_sta: float64;
+   base_str: float64;
+   base_vit: float64;
+   description: text;
+   name: text;
+ };
+type CharacterBag = 
+ record {
+   item_capacity: float64;
+   items: vec Item__1;
+   materials: vec MaterialwithAmount_Info;
+ };
+type Character = 
+ record {
+   classname: text;
+   cur_exp: nat;
+   cur_hp: float64;
+   cur_morale: float64;
+   cur_mp: float64;
+   cur_sta: float64;
+   "int": float64;
+   lck: float64;
+   lvl: nat;
+   max_hp: float64;
+   max_morale: float64;
+   max_mp: float64;
+   max_sta: float64;
+   name: text;
+   next_exp: nat;
+   status: text;
+   str: float64;
+   vit: float64;
+ };
+service : {
+  INIT: () -> ();
+  UI_CharacterBag: (text) -> (Result_3);
+  UI_CharacterQuickInfo: (text) -> (Result_2);
+  UI_CharactertakeOption: (ChartakeOption_Creation) -> (Result_1);
+  UI_QuestRequirements: () -> (vec QuestRequirements_Info) query;
+  UI_quitQuest: (text) -> (Result);
+  createCharacter: (Character_Creation) -> (Result);
+  createCharcarryingItem: (CharcarryingItem_Creation) -> (Result);
+  createUser: (User_Creation) -> (Result);
+  loginUser: (User_Login) -> (Result);
+  logoutUser: (text) -> (Result);
+  showCharacter_Classes: () -> (vec Character_Class) query;
+  showCharacters: () -> (vec Character) query;
+  showCharscarryingItems: () -> (vec CharcarryingItem) query;
+  showCharscollectMaterials: () -> (vec CharcollectMaterial) query;
+  showCharstakeOptions: () -> (vec ChartakeOption) query;
+  showEvents: () -> (vec Event) query;
+  showItems: () -> (vec Item) query;
+  showItemsforQuests: () -> (vec ItemforQuest) query;
+  showMaterials: () -> (vec Material) query;
+  showOptions: () -> (vec Option) query;
+  showQuests: () -> (vec Quest) query;
+  showUsers: () -> (vec User) query;
+}
